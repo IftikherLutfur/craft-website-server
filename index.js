@@ -23,7 +23,7 @@ async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
         // Send a ping to confirm a successful connection
-        
+
 
         const database = client.db("craftDb").collection("craft");
 
@@ -41,15 +41,37 @@ async function run() {
         })
 
         app.get('/craft/:id', async (req, res) => {
-   const id = req.params.id;
-   const query = {_id:new ObjectId(id)}
-   const result = await database.findOne(query)
-   res.send(result)
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const result = await database.findOne(query)
+            res.send(result)
         })
 
-        app.delete('/craft/:id', async(req, res)=> {
+        app.put('/craft/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) }
+            const options = { upsert: true }
+            const update = req.body;
+            const updateData = {
+                $set: {
+                    image: update.image,
+                    item: update.item,
+                    category: update.category,
+                    price: update.price,
+                    rating: update.rating,
+                    custom: update.custom,
+                    process: update.process,
+                    stock: update.stock,
+                    description: update.description
+                }
+            }
+            const result = await database.updateOne(filter, updateData, options)
+            res.send(result)
+        })
+
+        app.delete('/craft/:id', async (req, res) => {
             const id = req.params.id
-            const deleteItem = {_id: new ObjectId(id)}
+            const deleteItem = { _id: new ObjectId(id) }
             const result = await database.deleteOne(deleteItem)
             res.send(result)
         })
