@@ -33,12 +33,12 @@ async function run() {
             res.send(result)
         })
 
-        app.post('/craft', async (req, res) => {
-            const craft = req.body;
-            console.log("Added", craft);
-            const craftPost = await database.insertOne(craft)
-            res.send(craftPost)
-        })
+        // app.post('/craft', async (req, res) => {
+        //     const craft = req.body;
+        //     console.log("Added", craft);
+        //     const craftPost = await database.insertOne(craft)
+        //     res.send(craftPost)
+        // })
 
         app.get('/craft/:id', async (req, res) => {
             const id = req.params.id;
